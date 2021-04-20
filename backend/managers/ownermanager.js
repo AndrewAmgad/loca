@@ -1,5 +1,6 @@
 'use strict';
 
+const { data } = require('jquery');
 const realmModel = require('../models/realm');
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -17,13 +18,13 @@ function all(req, res) {
         res.json({
             _id: dbRealm._id,
             isCompany: dbRealm.isCompany,
-            company: dbRealm.companyInfo.name,
-            legalForm: dbRealm.companyInfo.legalStructure,
-            capital: dbRealm.companyInfo.capital,
-            siret: dbRealm.companyInfo.ein,
-            dos: dbRealm.companyInfo.dos,
-            vatNumber: dbRealm.companyInfo.vatNumber,
-            manager: dbRealm.companyInfo.legalRepresentative,
+            company: dbRealm.companyInfo && dbRealm.companyInfo.name,
+            legalForm: dbRealm.companyInfo && dbRealm.companyInfo.legalStructure,
+            capital: dbRealm.companyInfo && dbRealm.companyInfo.capital,
+            siret: dbRealm.companyInfo && dbRealm.companyInfo.ein,
+            dos: dbRealm.companyInfo && dbRealm.companyInfo.dos,
+            vatNumber: dbRealm.companyInfo && dbRealm.companyInfo.vatNumber,
+            manager: dbRealm.companyInfo && dbRealm.companyInfo.legalRepresentative,
             street1: dbRealm.addresses[0].street1,
             street2: dbRealm.addresses[0].street2,
             zipCode: dbRealm.addresses[0].zipCode,
@@ -77,7 +78,7 @@ function update(req, res) {
     };
 
     realmModel.update(realmModel.schema.filter(realm), (errors) => {
-        res.json({errors: errors});
+        res.json({ errors: errors });
     });
 }
 
